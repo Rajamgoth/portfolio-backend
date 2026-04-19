@@ -1,6 +1,7 @@
 package in.ashokit.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -60,6 +61,10 @@ public class EmailService {
 				+ "Best Regards,\nRajkumar");
 
 		mailSender.send(autoReply);
+	}
+	
+	public List<Contact> getAllMessages() {
+	    return contactRepository.findAll();
 	}
 
 }
