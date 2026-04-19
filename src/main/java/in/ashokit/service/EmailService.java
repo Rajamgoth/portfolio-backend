@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import in.ashokit.dto.ContactRequest;
+import in.ashokit.entity.Contact;
+import in.ashokit.repo.ContactRepository;
 
 
 @Service
@@ -16,10 +18,21 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
+	@Autowired
+	private ContactRepository contactRepository;
 
 	public void sendEmail(ContactRequest request) {
 
+		Contact contact=new Contact();
+		contact.setName(request.getName());
+		contact.setEmail(request.getEmail());
+		contact.setMessage(request.getMessage());
+		contact.setCreatedAt(LocalDateTime.now());
 		
+		Contact saved=contactRepository.save(contact);
+		System.out.println("Saved ID: "+saved.getId());
+		
+		System.out.println("Email sent to admin");
 
 		// send email
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -27,8 +40,9 @@ public class EmailService {
 		message.setSubject("New Contact Form Message from" + request.getName());
 		message.setText(
 
-				"Name: " + request.getName() + "\n" + "Email: " + request.getEmail() + "\n" + "Message: "
-						+ request.getMessage() + "\n");
+				"Name: " + request.getName() + "\n" + "Email: " 
+				         + request.getEmail() + "\n" + "Message: "
+						 + request.getMessage() + "\n");
 		mailSender.send(message);
 
 		/*
