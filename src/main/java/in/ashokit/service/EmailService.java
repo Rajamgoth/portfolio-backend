@@ -11,7 +11,6 @@ import in.ashokit.dto.ContactRequest;
 import in.ashokit.entity.Contact;
 import in.ashokit.repo.ContactRepository;
 
-
 @Service
 public class EmailService {
 
@@ -23,15 +22,15 @@ public class EmailService {
 
 	public void sendEmail(ContactRequest request) {
 
-		Contact contact=new Contact();
+		Contact contact = new Contact();
 		contact.setName(request.getName());
 		contact.setEmail(request.getEmail());
 		contact.setMessage(request.getMessage());
 		contact.setCreatedAt(LocalDateTime.now());
-		
-		Contact saved=contactRepository.save(contact);
-		System.out.println("Saved ID: "+saved.getId());
-		
+
+		Contact saved = contactRepository.save(contact);
+		System.out.println("Saved ID: " + saved.getId());
+
 		System.out.println("Email sent to admin");
 
 		// send email
@@ -40,27 +39,27 @@ public class EmailService {
 		message.setSubject("New Contact Form Message from" + request.getName());
 		message.setText(
 
-				"Name: " + request.getName() + "\n" + "Email: " 
-				         + request.getEmail() + "\n" + "Message: "
-						 + request.getMessage() + "\n");
+				"Name: " + request.getName() + "\n" + "Email: " + request.getEmail() + "\n" + "Message: "
+						+ request.getMessage() + "\n");
 		mailSender.send(message);
 
-		/*
-		 * // Auto Replay sendAutoReply(request);
-		 */
+		// Auto Replay
+		sendAutoReply(request);
 
 	}
 
-	/*
-	 * // 🔥 Auto-reply method public void sendAutoReply(ContactRequest request) {
-	 * SimpleMailMessage reply = new SimpleMailMessage();
-	 * 
-	 * reply.setTo(request.getEmail()); reply.setSubject("Thanks for contacting!");
-	 * 
-	 * reply.setText("Hi " + request.getName() + ",\n\n" +
-	 * "Thank you for contacting me. I have received your message and will get back to you soon.\n\n"
-	 * + "Best Regards,\nRajkumar");
-	 * 
-	 * mailSender.send(reply); }
-	 */
+	// 🔥 Auto-reply method
+	public void sendAutoReply(ContactRequest request) {
+		SimpleMailMessage autoReply = new SimpleMailMessage();
+
+		autoReply.setTo(request.getEmail());
+		autoReply.setSubject("Thanks for contacting!");
+
+		autoReply.setText("Hi " + request.getName() + ",\n\n"
+				+ "Thank you for contacting me. I have received your message and will get back to you soon.\n\n"
+				+ "Best Regards,\nRajkumar");
+
+		mailSender.send(autoReply);
+	}
+
 }
