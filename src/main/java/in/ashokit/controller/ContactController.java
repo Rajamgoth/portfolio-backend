@@ -19,6 +19,7 @@ import in.ashokit.repo.ContactRepository;
 import in.ashokit.service.EmailService;
 
 @RestController
+@RequestMapping("/api/contact")
 @CrossOrigin(origins = "https://rajkumar-devhub-portfolio.netlify.app")
 public class ContactController {
 
