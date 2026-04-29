@@ -1,9 +1,10 @@
 package in.ashokit.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -63,8 +64,8 @@ public class EmailService {
 		mailSender.send(autoReply);
 	}
 	
-	public List<Contact> getAllMessages() {
-	    return contactRepository.findAll();
+	public Page<Contact> getMessages(Pageable pageable) {
+	    return contactRepository.findAll(pageable);
 	}
 
 }
